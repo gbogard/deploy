@@ -1,0 +1,15 @@
+all:
+  vars:
+    ansible_python_interpreter: auto
+  children:
+    production:
+      vars:
+        ansible_ssh_private_key_file: ./secrets/production
+        ansible_user: root
+      children:
+        swarm_managers:
+          hosts:
+            94.237.88.82:
+              advertise_addr: 10.4.3.141
+        swarm_workers:
+          hosts: []

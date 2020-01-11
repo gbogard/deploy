@@ -1,0 +1,6 @@
+---
+- name: "Configure Server"
+  hosts: production
+  roles:
+    - ./roles/commons
+    - ./roles/docker-swarm

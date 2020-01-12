@@ -30,7 +30,7 @@ jobs:
         ansible-vault decrypt secrets/production --vault-password-file password
         rm password
     - name: Add known hosts
-      run: sudo ssh-keyscan -H 94.237.88.82 >> ~/.ssh/known_hosts
+      run: sudo ssh-keyscan -H 94.237.88.82 > ~/.ssh/known_hosts
     - name: Execute Ansible Playbook
       run: ansible-playbook  -i inventory.yml production-playbook.yml
     - name: Clean

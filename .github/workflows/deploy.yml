@@ -24,7 +24,7 @@ jobs:
       env:
         VAULT_PASSWORD: ${{ secrets.VAULT_PASSWORD }}
       run: |
-        echo $VAULT_PASSWORD password
+        echo $VAULT_PASSWORD > password
         ansible-vault decrypt secrets/production --vault-password-file password
         rm password
     - name: Execute Ansible Playbook

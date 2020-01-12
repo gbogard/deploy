@@ -22,11 +22,16 @@ jobs:
         sudo apt install ansible
     - name: Install Roles
       run: ansible-galaxy role install -r roles/requirements.yml
-    - name: Execute Ansible Playbook
+    - name: Decrypt SSH Key
       env:
         VAULT_PASSWORD: ${{ secrets.VAULT_PASSWORD }}
       run: |
         echo $VAULT_PASSWORD > password
-        ansible-vault decrypt secrets/* --vault-password-file password
-        ansible-playbook  -i inventory.yml production-playbook.yml
-
+        ansible-vault decrypt secrets/production --vault-password-file password
+        rm password
+    - name: Add known hosts
+      run: ssh-keyscan -H 94.237.88.82 >> ~/.ssh/known_hosts
+    - name: Execute Ansible Playbook
+      run: ansible-playbook  -i inventory.yml production-playbook.yml
+    - name: Clean
+      run: rm -rf secrets

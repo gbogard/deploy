@@ -1,0 +1,27 @@
+name: CD
+
+on:
+  push:
+    tags:
+      - deploy-*
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Execute Ansible Playbook
+      uses: saubermacherag/ansible-playbook-docker-action@v1.2
+      with:
+        # Name of the playbook in your workspace.
+        playbookName: production-playbook.yml
+        # Name of the inventory file to use.
+        inventoryFile: inventory.yml
+        # name of the requirements file to use.
+        requirementsFile: roles/requirements.yml
+        # Keyfile to use for host connections.
+        keyFile: secrets/production
+        # Vault Password to decrypt keyFile.
+        keyFileVaultPass: ${{ secrets.VAULT_PASSWORD }}

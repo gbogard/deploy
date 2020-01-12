@@ -20,6 +20,8 @@ jobs:
         sudo apt install software-properties-common
         sudo apt-add-repository --yes --update ppa:ansible/ansible
         sudo apt install ansible
+    - name: Install Roles
+      run: ansible-galaxy role install -r roles/requirements.yml
     - name: Decrypt SSH Key
       env:
         VAULT_PASSWORD: ${{ secrets.VAULT_PASSWORD }}

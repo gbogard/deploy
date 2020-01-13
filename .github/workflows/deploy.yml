@@ -36,6 +36,9 @@ jobs:
         ansible-vault decrypt secrets/* --vault-password-file password
         rm password
     - name: Execute Ansible Playbook
+      env:
+        GITHUB_USER: CI
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: ansible-playbook  -i inventory.yml production-playbook.yml
     - name: Clean
       run: rm -rf secrets

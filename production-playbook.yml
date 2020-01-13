@@ -4,3 +4,4 @@
   roles:
     - ./roles/commons
     - ./roles/docker-swarm
+    - ./roles/docker-github-package

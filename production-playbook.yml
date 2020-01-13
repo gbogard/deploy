@@ -19,7 +19,6 @@
     - name: Deploy stack
       docker_stack:
         name: lambdacademy
-        resolve_image: changed
         prune: yes
         compose:
           - "{{ compose_file }}"

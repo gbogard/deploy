@@ -5,3 +5,21 @@
     - ./roles/commons
     - ./roles/docker-swarm
     - ./roles/docker-github-package
+- name: "Deploy Production"
+  hosts: production
+  tasks:
+    - pip:
+        name:
+          - jsondiff
+          - pyyaml
+    - name: Push Docker Compose file
+      copy:
+        src: ./production-compose.yml
+        dest: "{{ compose_file }}"
+    - name: Deploy stack
+      docker_stack:
+        name: lambdacademy
+        resolve_image: changed
+        prune: yes
+        compose:
+          - "{{ compose_file }}"

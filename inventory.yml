@@ -11,5 +11,3 @@ all:
           hosts:
             94.237.88.82:
               advertise_addr: 10.4.3.141
-        swarm_workers:
-          hosts: []

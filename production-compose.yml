@@ -1,7 +1,25 @@
 version: '3'
 services:
-  front:
-    image: docker.pkg.github.com/lambdacademy-dev/front-end/front:latest
+  reverse-proxy:  
+    image: traefik:v2.1
+    command: --providers.docker
     ports:
       - "80:80"
+      - "8080:8080"
+    volumes:
+      # So that Traefik can listen to the Docker events
+      - /var/run/docker.sock:/var/run/docker.sock
+  front:
+    image: docker.pkg.github.com/lambdacademy-dev/front/lambda-front:latest
     restart: always
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.front.rule=Host(`lambdacademy.dev`, `www.lambdacademy.dev`)"
+      - "traefik.http.services.front.loadbalancer.server.port=3000"
+  api:
+    image: docker.pkg.github.com/lambdacademy-dev/api/lambda-api:latest
+    restart: always
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.api.rule=Host(`api.lambdacademy.dev`)"
+      - "traefik.http.services.api.loadbalancer.server.port=8080"

@@ -20,5 +20,7 @@
       docker_stack:
         name: lambdacademy
         prune: yes
+        with_registry_auth: yes
+        resolve_image: always
         compose:
           - "{{ compose_file }}"

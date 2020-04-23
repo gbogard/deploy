@@ -1,11 +1,5 @@
 ---
-- name: "Configure Server"
-  hosts: production
-  roles:
-    - ./roles/commons
-    - ./roles/docker-swarm
-    - ./roles/docker-github-package
-- name: "Deploy Production"
+- name: "Deploy to production"
   hosts: production
   tasks:
     - pip:
@@ -14,13 +8,18 @@
           - pyyaml
     - name: Push Docker Compose file
       copy:
-        src: ./production-compose.yml
+        src: ./docker-compose.yml
         dest: "{{ compose_file }}"
     - name: Create temp folder
       file:
         path: "{{ tmp_folder }}"
         state: directory
         mode: '0755'
+    # Required so the image is ready when we want to run scala code
+    - name: Pull latest scala server runtime
+      docker_image:
+        name: docker.pkg.github.com/lambdacademy-dev/scala-runner/scala-runner-runtime:0.3.4
+        source: pull
     - name: Deploy stack
       docker_stack:
         name: lambdacademy

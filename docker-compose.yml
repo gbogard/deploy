@@ -35,6 +35,6 @@ services:
     volumes:
       # So that the server can start docker images
       - /var/run/docker.sock:/var/run/docker.sock
-      - "/tmp/lambdacademy:/app/tmp"
+      - /tmp/lambdacademy:/app/tmp
     deploy:
       replicas: 2

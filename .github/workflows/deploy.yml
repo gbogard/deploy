@@ -39,6 +39,6 @@ jobs:
       env:
         GITHUB_USER: CI
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: ansible-playbook  -i inventory.yml production-playbook.yml
+      run: ansible-playbook -i inventory.yml deploy.yml
     - name: Clean
       run: rm -rf secrets

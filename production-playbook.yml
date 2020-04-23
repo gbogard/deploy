@@ -16,6 +16,11 @@
       copy:
         src: ./production-compose.yml
         dest: "{{ compose_file }}"
+    - name: Create temp folder
+      file:
+        path: "{{ tmp_folder }}"
+        state: directory
+        mode: '0755'
     - name: Deploy stack
       docker_stack:
         name: lambdacademy

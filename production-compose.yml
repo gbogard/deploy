@@ -23,3 +23,18 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.api.rule=Host(`api.lambdacademy.dev`)"
       - "traefik.http.services.api.loadbalancer.server.port=8080"
+    environment:
+      SCALA_RUNNER_HOST: "scala-runner"
+      SCALA_RUNNER_PORT: "2003"
+  scala-runner:
+    image: docker.pkg.github.com/lambdacademy-dev/scala-runner/scala-runner-server:LATEST
+    restart: always
+    environment:
+      TMP_ROOT_HOST_PATH: "/tmp/lambdacademy"
+      TMP_ROOT_CONTAINER_PATH: "/app/tmp"
+    volumes:
+      # So that the server can start docker images
+      - /var/run/docker.sock:/var/run/docker.sock
+      - "/tmp/lambdacademy:/app/tmp"
+    deploy:
+      replicas: 2

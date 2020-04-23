@@ -2,6 +2,7 @@ all:
   vars:
     ansible_python_interpreter: auto
     compose_file: /opt/docker-compose.yml
+    tmp_folder: /tmp/lambdacademy
   children:
     production:
       vars:
